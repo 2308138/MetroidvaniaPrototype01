@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
 
         // --- CHECK GROUND ---
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
         if (isGrounded)
         {
             lastGroundedTime = coyoteTime;

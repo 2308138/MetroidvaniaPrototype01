@@ -1,0 +1,88 @@
+using UnityEngine;
+
+public class PlayerAttack : MonoBehaviour
+{
+    [Header("Attack Settings")]
+    public Transform attackPoint;
+    public Vector2 attackSize = new Vector2(0F, 0F);
+    public float attackDamage = 0F;
+    public float attackCooldown = 0F;
+    public float knockbackForce = 0F;
+
+    private float cooldownTimer;
+    private bool isAttacking;
+
+    [Header("Enemy Check")]
+    public LayerMask enemyLayer;
+
+    private SpriteRenderer playerSprite;
+
+    void Start()
+    {
+        playerSprite = GetComponentInChildren<SpriteRenderer>();
+    }
+
+    void Update()
+    {
+        // --- REDUCE TIMERS ---
+        cooldownTimer -= Time.deltaTime;
+
+        // --- ATTACK INPUT ---
+        if (cooldownTimer <= 0 && Input.GetKeyDown(KeyCode.J) || Input.GetButtonDown("Fire1"))
+        {
+            PerformAttack();
+            cooldownTimer = attackCooldown;
+        }
+
+        // --- CHECK ATTACK POINT POSITION ---
+        Vector3 localPos = attackPoint.localPosition;
+        localPos.x = Mathf.Abs(localPos.x) * (playerSprite.flipX ? -1 : 1);
+        attackPoint.localPosition = localPos;
+    }
+
+    void PerformAttack()
+    {
+        // --- ENEMY DETECTION ---
+        Collider2D[] hits = Physics2D.OverlapBoxAll(attackPoint.position, attackSize, 0);
+
+        foreach (var hit in hits)
+        {
+            // --- IGNORE PLAYER COLLIDER ---
+            if (hit.gameObject == gameObject)
+                continue;
+
+            // --- DAMAGE APPLICATION ---
+            var damageable = hit.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.TakeDamage(attackDamage);
+            }
+
+            // --- KNOCKBACK APPLICATION ---
+            Rigidbody2D enemyRB = hit.attachedRigidbody;
+            if (enemyRB != null)
+            {
+                Vector2 direction = ((Vector2)enemyRB.position - (Vector2)attackPoint.position).normalized;
+                enemyRB.AddForce(direction * knockbackForce);
+            }
+        }
+
+        // --- ATTACK ANIMATION ---
+        isAttacking = true;
+        Invoke(nameof(ResetAttackState), 0.1F);
+    }
+
+    void ResetAttackState()
+    {
+        isAttacking = false;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if (attackPoint != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(attackPoint.position, attackSize);
+        }
+    }
+}
