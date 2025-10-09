@@ -577,7 +577,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
+  acceleration: 10
+  airControl: 0.5
   jumpForce: 14
+  variableJumpMultiplier: 0.5
+  coyoteTime: 0.15
+  jumpBufferTime: 0.15
   groundCheck: {fileID: 152859833}
   groundCheckRadius: 0.2
   groundLayer:

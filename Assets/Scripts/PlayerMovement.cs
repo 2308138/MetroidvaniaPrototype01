@@ -4,9 +4,19 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 0F;
-    public float jumpForce = 0F;
+    public float acceleration = 0F;
+    public float airControl = 0F;
 
     private float moveInput;
+
+    [Header("Jump Settings")]
+    public float jumpForce = 0F;
+    public float variableJumpMultiplier = 0F;
+    public float coyoteTime = 0F;
+    public float jumpBufferTime = 0F;
+
+    private float lastGroundedTime;
+    private float lastJumpPressedTime;
 
     [Header("Ground Check")]
     public Transform groundCheck;
@@ -26,24 +36,62 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // --- HORIZONTAL INPUT ---
         moveInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            playerRB.linearVelocity = new Vector2(playerRB.linearVelocity.x, jumpForce);
-        }
-
+        // --- FLIP SPRITE ---
         if (moveInput != 0)
         {
             playerSprite.flipX = moveInput < 0;
+        }
+
+        // --- JUMP INPUT ---
+        if (Input.GetButtonDown("Jump"))
+        {
+            lastJumpPressedTime = jumpBufferTime;
+        }
+
+        // --- REDUCE TIMERS ---
+        lastGroundedTime -= Time.deltaTime;
+        lastJumpPressedTime -= Time.deltaTime;
+
+        // --- CHECK GROUND ---
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        if (isGrounded)
+        {
+            lastGroundedTime = coyoteTime;
+        }
+
+        // --- PERFORM JUMP ---
+        if (lastJumpPressedTime > 0 && lastGroundedTime > 0)
+        {
+            playerRB.linearVelocity = new Vector2(playerRB.linearVelocity.x, jumpForce);
+            lastGroundedTime = 0;
+            lastJumpPressedTime = 0;
+        }
+
+        // --- VARIABLE JUMP HEIGHT ---
+        if (Input.GetButtonUp("Jump") && playerRB.linearVelocity.y > 0)
+        {
+            playerRB.linearVelocity = new Vector2(playerRB.linearVelocity.x, playerRB.linearVelocity.y * variableJumpMultiplier);
         }
     }
 
     void FixedUpdate()
     {
-        playerRB.linearVelocity = new Vector2(moveInput * moveSpeed, playerRB.linearVelocity.y);
+        // --- HORIZONTAL MOVEMENT ---
+        float targetSpeed = moveInput * moveSpeed;
+        float SpeedDifference = targetSpeed - playerRB.linearVelocity.x;
+        float accelerationRate = isGrounded ? acceleration : acceleration * airControl;
+        float movement = SpeedDifference * accelerationRate;
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        playerRB.AddForce(Vector2.right * movement);
+
+        // --- CLAMP VELOCITY ---
+        if (Mathf.Abs(playerRB.linearVelocity.x) > moveSpeed)
+        {
+            playerRB.linearVelocity = new Vector2(Mathf.Sign(playerRB.linearVelocity.x) * moveSpeed, playerRB.linearVelocity.y);
+        }
     }
 
     void OnDrawGizmosSelected()
