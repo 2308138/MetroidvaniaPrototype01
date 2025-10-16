@@ -72,6 +72,9 @@ public class PlayerAttack : MonoBehaviour
 
             // --- PLAYER RECOIL APPLICATION ---
             StartCoroutine(PlayerRecoil(0.1F, 2F));
+
+            // --- CAMERA SHAKE APPLICATION ---
+            FindObjectOfType<CameraShake>()?.Shake(0.1F, 0.05F);
         }
 
         // --- ATTACK ANIMATION ---
@@ -86,9 +89,10 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator HitFreeze(float duration)
     {
+        float originalTimeScale = Time.timeScale;
         Time.timeScale = 0F;
         yield return new WaitForSecondsRealtime(duration);
-        Time.timeScale = 1F;
+        Time.timeScale = originalTimeScale;
     }
 
     IEnumerator PlayerRecoil(float duration, float strength)

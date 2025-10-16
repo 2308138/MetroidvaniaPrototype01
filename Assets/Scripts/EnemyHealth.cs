@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
 {
+    [Header("Health Settings")]
     public float maxHealth = 0F;
 
     private float currentHealth;
