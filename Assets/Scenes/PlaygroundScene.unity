@@ -968,7 +968,7 @@ MonoBehaviour:
   attackSize: {x: 2.5, y: 1.5}
   attackDamage: 1
   attackCooldown: 0.5
-  knockbackForce: 250
+  knockbackForce: 8
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128

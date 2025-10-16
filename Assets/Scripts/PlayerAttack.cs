@@ -69,6 +69,9 @@ public class PlayerAttack : MonoBehaviour
 
             // --- HIT FREEZE APPLICATION ---
             StartCoroutine(HitFreeze(0.05F));
+
+            // --- PLAYER RECOIL APPLICATION ---
+            StartCoroutine(PlayerRecoil(0.1F, 2F));
         }
 
         // --- ATTACK ANIMATION ---
@@ -86,6 +89,18 @@ public class PlayerAttack : MonoBehaviour
         Time.timeScale = 0F;
         yield return new WaitForSecondsRealtime(duration);
         Time.timeScale = 1F;
+    }
+
+    IEnumerator PlayerRecoil(float duration, float strength)
+    {
+        Rigidbody2D playerRB = GetComponent<Rigidbody2D>();
+        if (playerRB != null)
+        {
+            float direction = Mathf.Sign(transform.localScale.x) * -1F;
+            Vector2 recoil = new Vector2(direction * strength, 0.5F);
+            playerRB.AddForce(recoil, ForceMode2D.Impulse);
+        }
+        yield return new WaitForSeconds(duration);
     }
 
     void OnDrawGizmosSelected()
