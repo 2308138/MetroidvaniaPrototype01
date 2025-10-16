@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour, IDamageable
@@ -16,6 +17,9 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         // --- DAMAGE CALCULATION ---
         currentHealth -= amount;
 
+        // --- HIT FLASH APPLICATION ---
+        StartCoroutine(HitFlash());
+
         // --- HANDLE DEATH  ---
         if (currentHealth <= 0)
         {
@@ -30,5 +34,17 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     {
         // --- DEATH SETTINGS ---
         Destroy(gameObject);
+    }
+
+    IEnumerator HitFlash()
+    {
+        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            Color originalColor = spriteRenderer.color;
+            spriteRenderer.color = Color.red;
+            yield return new WaitForSeconds(0.1F);
+            spriteRenderer.color = originalColor;
+        }
     }
 }

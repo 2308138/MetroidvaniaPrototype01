@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
@@ -63,8 +64,11 @@ public class PlayerAttack : MonoBehaviour
             if (enemyRB != null)
             {
                 Vector2 direction = ((Vector2)enemyRB.position - (Vector2)attackPoint.position).normalized;
-                enemyRB.AddForce(direction * knockbackForce);
+                enemyRB.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
             }
+
+            // --- HIT FREEZE APPLICATION ---
+            StartCoroutine(HitFreeze(0.05F));
         }
 
         // --- ATTACK ANIMATION ---
@@ -75,6 +79,13 @@ public class PlayerAttack : MonoBehaviour
     void ResetAttackState()
     {
         isAttacking = false;
+    }
+
+    IEnumerator HitFreeze(float duration)
+    {
+        Time.timeScale = 0F;
+        yield return new WaitForSecondsRealtime(duration);
+        Time.timeScale = 1F;
     }
 
     void OnDrawGizmosSelected()
