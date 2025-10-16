@@ -39,13 +39,13 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     IEnumerator HitFlash()
     {
-        SpriteRenderer spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        if (spriteRenderer != null)
+        SpriteRenderer enemySprite = GetComponentInChildren<SpriteRenderer>();
+        if (enemySprite != null)
         {
-            Color originalColor = spriteRenderer.color;
-            spriteRenderer.color = Color.red;
+            Color originalColor = enemySprite.color;
+            enemySprite.color = Color.white;
             yield return new WaitForSeconds(0.1F);
-            spriteRenderer.color = originalColor;
+            enemySprite.color = originalColor;
         }
     }
 }

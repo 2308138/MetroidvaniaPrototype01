@@ -1,12 +1,11 @@
 using UnityEngine;
-using System.Collections;
 
 public class CameraShake : MonoBehaviour
 {
     [Header("Camera Shake Settings")]
     private Vector3 originalPos;
-    private float shakeDuration = 0F;
-    private float shakeMagnitude = 0.05F;
+    private float shakeDuration;
+    private float shakeMagnitude;
 
     void Start()
     {

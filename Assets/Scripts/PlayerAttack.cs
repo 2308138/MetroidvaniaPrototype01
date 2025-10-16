@@ -111,7 +111,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (attackPoint != null)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireCube(attackPoint.position, attackSize);
         }
     }
