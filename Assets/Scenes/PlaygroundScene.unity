@@ -1057,8 +1057,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   wallSlideSpeed: 1.5
-  wallJumpForce: {x: 30, y: 16}
+  wallJumpForce: {x: 50, y: 16}
   wallJumpDuration: 0.2
+  wallStickDuration: 0.15
 --- !u!114 &1557227263
 MonoBehaviour:
   m_ObjectHideFlags: 0
