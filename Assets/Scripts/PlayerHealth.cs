@@ -16,11 +16,20 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
+        // --- CHECK INVINCIBILITY ---
+        PlayerHitReaction hitReaction = GetComponent<PlayerHitReaction>();
+        if (hitReaction != null && hitReaction.IsInvincible())
+            return;
+
         // --- DAMAGE CALCULATION ---
         currentHealth -= amount;
 
-        // --- HIT FLASH APPLICATION ---
-        StartCoroutine(HitFlash());
+        // --- HIT REACTION ---
+        if (hitReaction != null)
+        {
+            Vector2 knockbackDirection = (transform.position - Camera.main.transform.position).normalized;
+            hitReaction.TakeHit(knockbackDirection * 5F);
+        }
 
         // --- HANDLE DEATH  ---
         if (currentHealth <= 0)
@@ -38,17 +47,5 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         isDead = true;
         // Player Death Logic Here
         Destroy(gameObject);
-    }
-
-    IEnumerator HitFlash()
-    {
-        SpriteRenderer playerSprite = GetComponentInChildren<SpriteRenderer>();
-        if (playerSprite != null)
-        {
-            Color originalColor = playerSprite.color;
-            playerSprite.color = Color.red;
-            yield return new WaitForSeconds(0.1F);
-            playerSprite.color = originalColor;
-        }
     }
 }

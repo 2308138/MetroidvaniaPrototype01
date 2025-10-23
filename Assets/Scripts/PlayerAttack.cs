@@ -48,7 +48,7 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            // --- IGNORE PLAYER COLLIDER ---
+            // --- IGNORE SELF COLLIDER ---
             if (hit.gameObject == gameObject)
                 continue;
 
