@@ -25,6 +25,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isGrounded;
 
+    [Header("Gravity Settings")]
+    public float fallMultiplier = 0F;
+    public float lowJumpMultiplier = 0F;
+
     private Rigidbody2D playerRB;
     private SpriteRenderer playerSprite;
 
@@ -92,6 +96,16 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(playerRB.linearVelocity.x) > moveSpeed)
         {
             playerRB.linearVelocity = new Vector2(Mathf.Sign(playerRB.linearVelocity.x) * moveSpeed, playerRB.linearVelocity.y);
+        }
+
+        // --- CUSTOM GRAVITY APPLICATION ---
+        if (playerRB.linearVelocity.y < 0)
+        {
+            playerRB.linearVelocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime;
+        }
+        else if (playerRB.linearVelocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            playerRB.linearVelocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
         }
     }
 
