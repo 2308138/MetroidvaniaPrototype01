@@ -44,6 +44,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isWallSliding;
     private bool isWallJumping;
 
+    [Header("Wall Stick Settings")]
+    public float wallStickDuration = 0F;
+
+    private float wallStickTime;
+
     private Rigidbody2D playerRB;
     private SpriteRenderer playerSprite;
 
@@ -77,13 +82,22 @@ public class PlayerMovement : MonoBehaviour
         // --- CHECK GROUND ---
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
+        if (isGrounded)
+        {
+            lastGroundedTime = coyoteTime;
+        }
+
         // --- CHECK WALL ---
         float facingDirection = playerSprite.flipX ? -1 : 1;
         isTouchingWall = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, wallCheckDistance, wallLayer);
 
-        if (isGrounded)
+        if (isTouchingWall && !isGrounded)
         {
-            lastGroundedTime = coyoteTime;
+            wallStickTime = wallStickDuration;
+        }
+        else
+        {
+            wallStickTime -= Time.deltaTime;
         }
 
         // --- PERFORM JUMP ---
@@ -111,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // --- PERFORM WALL JUMP ---
-        if (Input.GetButtonDown("Jump") && isWallSliding)
+        if (Input.GetButtonDown("Jump") && (isWallSliding || wallStickTime > 0))
         {
             isWallJumping = true;
             Invoke(nameof(StopWallJump), wallJumpDuration);
@@ -130,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
         // --- HORIZONTAL MOVEMENT ---
         float targetSpeed = moveInput * moveSpeed;
         float SpeedDifference = targetSpeed - playerRB.linearVelocity.x;
-        float accelerationRate = isGrounded ? acceleration : acceleration * airControl;
+        float accelerationRate = isGrounded ? acceleration : (wallStickTime > 0 ? acceleration * 0.5F : acceleration * airControl);
         float movement = SpeedDifference * accelerationRate;
 
         playerRB.AddForce(Vector2.right * movement);
