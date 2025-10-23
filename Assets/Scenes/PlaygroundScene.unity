@@ -564,7 +564,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -979,6 +979,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 1
   knockbackForce: 3
+  attackRange: 1.5
+  attackCooldown: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1557227260
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +997,7 @@ GameObject:
   - component: {fileID: 1557227264}
   - component: {fileID: 1557227262}
   - component: {fileID: 1557227263}
+  - component: {fileID: 1557227266}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1125,6 +1131,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1557227266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557227260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7df0f610690bc4e44a6f1c273d9f319f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
 --- !u!1 &1599652371
 GameObject:
   m_ObjectHideFlags: 0
