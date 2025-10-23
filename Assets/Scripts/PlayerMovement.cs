@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -28,6 +29,20 @@ public class PlayerMovement : MonoBehaviour
     [Header("Gravity Settings")]
     public float fallMultiplier = 0F;
     public float lowJumpMultiplier = 0F;
+
+    [Header("Wall Check")]
+    public Transform wallCheck;
+    public float wallCheckDistance = 0F;
+    public LayerMask wallLayer;
+
+    [Header("Wall Slide + Jump Settings")]
+    public float wallSlideSpeed = 0F;
+    public Vector2 wallJumpForce = new Vector2(0F, 0F);
+    public float wallJumpDuration = 0F;
+
+    private bool isTouchingWall;
+    private bool isWallSliding;
+    private bool isWallJumping;
 
     private Rigidbody2D playerRB;
     private SpriteRenderer playerSprite;
@@ -62,6 +77,10 @@ public class PlayerMovement : MonoBehaviour
         // --- CHECK GROUND ---
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
+        // --- CHECK WALL ---
+        float facingDirection = playerSprite.flipX ? -1 : 1;
+        isTouchingWall = Physics2D.Raycast(wallCheck.position, Vector2.right * facingDirection, wallCheckDistance, wallLayer);
+
         if (isGrounded)
         {
             lastGroundedTime = coyoteTime;
@@ -79,6 +98,30 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonUp("Jump") && playerRB.linearVelocity.y > 0)
         {
             playerRB.linearVelocity = new Vector2(playerRB.linearVelocity.x, playerRB.linearVelocity.y * variableJumpMultiplier);
+        }
+
+        // --- WALL SLIDE DETECTION ---
+        if (isTouchingWall && !isGrounded && playerRB.linearVelocity.y < 0)
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+
+        // --- PERFORM WALL JUMP ---
+        if (Input.GetButtonDown("Jump") && isWallSliding)
+        {
+            isWallJumping = true;
+            Invoke(nameof(StopWallJump), wallJumpDuration);
+
+            float wallDirection = playerSprite.flipX ? -1 : 1;
+            Vector2 force = new Vector2(-wallDirection * wallJumpForce.x, wallJumpForce.y);
+            playerRB.linearVelocity = Vector2.zero;
+            playerRB.AddForce(force, ForceMode2D.Impulse);
+
+            playerSprite.flipX = wallDirection > 0;
         }
     }
 
@@ -107,6 +150,17 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRB.linearVelocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime;
         }
+
+        // --- WALL SLIDE APPLICATION ---
+        if (isWallSliding)
+        {
+            playerRB.linearVelocity = new Vector2(playerRB.linearVelocity.x, Mathf.Clamp(playerRB.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
+        }
+    }
+
+    void StopWallJump()
+    {
+        isWallJumping = false;
     }
 
     void OnDrawGizmosSelected()
@@ -115,6 +169,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
+
+        if (wallCheck != null)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(wallCheck.position, wallCheck.position + Vector3.right * Mathf.Sign(transform.localScale.x) * wallCheckDistance);
         }
     }
 }
