@@ -47,7 +47,7 @@ public class PlayerAttack : MonoBehaviour
     void PerformAttack()
     {
         // --- ENEMY DETECTION ---
-        Collider2D[] hits = Physics2D.OverlapBoxAll(attackPoint.position, attackSize, 0);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(attackPoint.position, attackSize, 0F, enemyLayer);
 
         foreach (var hit in hits)
         {
@@ -55,19 +55,12 @@ public class PlayerAttack : MonoBehaviour
             if (hit.gameObject == gameObject)
                 continue;
 
-            // --- DAMAGE APPLICATION ---
+            // --- DAMAGE & KNOCKBACK APPLICATION ---
             var damageable = hit.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(attackDamage);
-            }
-
-            // --- KNOCKBACK APPLICATION ---
-            Rigidbody2D enemyRB = hit.attachedRigidbody;
-            if (enemyRB != null)
-            {
-                Vector2 direction = ((Vector2)enemyRB.position - (Vector2)attackPoint.position).normalized;
-                enemyRB.AddForce(direction * knockbackForce, ForceMode2D.Impulse);
+                Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
+                damageable.TakeDamage(attackDamage, hitDirection);
             }
 
             // --- HIT FREEZE APPLICATION ---
@@ -91,10 +84,7 @@ public class PlayerAttack : MonoBehaviour
         Invoke(nameof(ResetAttackState), 0.1F);
     }
 
-    void ResetAttackState()
-    {
-        isAttacking = false;
-    }
+    void ResetAttackState() => isAttacking = false;
 
     IEnumerator HitFreeze(float duration)
     {

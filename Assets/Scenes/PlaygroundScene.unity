@@ -661,7 +661,7 @@ GameObject:
   m_Component:
   - component: {fileID: 598066683}
   - component: {fileID: 598066684}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -836,7 +836,7 @@ GameObject:
   - component: {fileID: 1167210333}
   - component: {fileID: 1167210334}
   - component: {fileID: 1167210335}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Enemy(TestDummy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -939,9 +939,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   hitEffectPrefab: {fileID: 2155377977795342697, guid: c7cb0e0cbdad2ac43b1307df0e6e4c42, type: 3}
-  flashDuration: 0.1
+  flashDuration: 0.15
   flashColor: {r: 1, g: 1, b: 1, a: 1}
+  hurtColor: {r: 0, g: 0, b: 0, a: 1}
   hitStunDuration: 0.1
+  hitPopScale: 1.15
+  popDuration: 0.08
+  knockbackForce: 9
+  knockbackUpwardForce: 3
+  knockbackRecoveryTime: 0.1
 --- !u!114 &1167210334
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, Vector2 hitDirection)
     {
         // --- CHECK INVINCIBILITY ---
         PlayerHitReaction hitReaction = GetComponent<PlayerHitReaction>();
@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         // --- HIT REACTION ---
         if (hitReaction != null)
         {
-            Vector2 knockbackDirection = (transform.position - Camera.main.transform.position).normalized;
+            Vector2 knockbackDirection = -hitDirection.normalized;
             hitReaction.TakeHit(knockbackDirection * 5F);
         }
 

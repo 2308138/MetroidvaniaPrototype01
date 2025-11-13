@@ -56,15 +56,18 @@ public class EnemyAttack : MonoBehaviour
             IDamageable damageable = hit.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(damage);
+                Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
+                damageable.TakeDamage(damage, hitDirection);
             }
 
             // --- APPLY KNOCKBACK ---
             Rigidbody2D playerRB = hit.gameObject.GetComponent<Rigidbody2D>();
             if (playerRB != null)
             {
-                Vector2 knockbackDirection = (hit.transform.position - transform.position).normalized;
-                playerRB.AddForce(knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+                Vector2 hitDirection = (playerRB.position - (Vector2)transform.position).normalized;
+                Vector2 knockDirection = (hitDirection + Vector2.up * 0.2F).normalized;
+                playerRB.linearVelocity = Vector2.zero;
+                playerRB.AddForce(knockDirection * knockbackForce, ForceMode2D.Impulse);
             }
         }
     }
