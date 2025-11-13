@@ -16,6 +16,9 @@ public class PlayerAttack : MonoBehaviour
     [Header("Enemy Check")]
     public LayerMask enemyLayer;
 
+    [Header("Visual Feedback")]
+    public GameObject hitEffectPrefab;
+
     private SpriteRenderer playerSprite;
 
     void Start()
@@ -75,6 +78,12 @@ public class PlayerAttack : MonoBehaviour
 
             // --- CAMERA SHAKE APPLICATION ---
             FindObjectOfType<CameraShake>()?.Shake(0.1F, 0.05F);
+
+            // --- SPAWN HIT EFFECT ---
+            if (hitEffectPrefab != null)
+            {
+                Instantiate(hitEffectPrefab, hit.transform.position, Quaternion.identity);
+            }
         }
 
         // --- ATTACK ANIMATION ---
