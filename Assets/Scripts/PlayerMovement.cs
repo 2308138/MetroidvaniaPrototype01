@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        playerRB = GetComponentInChildren<Rigidbody2D>();
+        playerRB = GetComponent<Rigidbody2D>();
         playerSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
