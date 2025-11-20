@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHitReaction : MonoBehaviour
+public class OLD_PlayerHitReaction : MonoBehaviour
 {
     [Header("Hit Reaction Settings")]
     public float knockbackDuration = 0F;

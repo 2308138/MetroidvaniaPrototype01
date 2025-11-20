@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraShake : MonoBehaviour
+public class OLD_CameraShake : MonoBehaviour
 {
     [Header("Camera Shake Settings")]
     private Vector3 originalPos;

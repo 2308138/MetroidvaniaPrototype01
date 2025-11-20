@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HitEffect : MonoBehaviour
+public class OLD_HitEffect : MonoBehaviour
 {
     [Header("Effect Settings")]
     public float lifetime = 0F;

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class OLD_PlayerAttack : MonoBehaviour
 {
     [Header("Attack Settings")]
     public Transform attackPoint;
@@ -70,7 +70,7 @@ public class PlayerAttack : MonoBehaviour
             StartCoroutine(PlayerRecoil(0.1F, 2F));
 
             // --- CAMERA SHAKE APPLICATION ---
-            FindObjectOfType<CameraShake>()?.Shake(0.1F, 0.05F);
+            FindObjectOfType<OLD_CameraShake>()?.Shake(0.1F, 0.05F);
 
             // --- SPAWN HIT EFFECT ---
             if (hitEffectPrefab != null)

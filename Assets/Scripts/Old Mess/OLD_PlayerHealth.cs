@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IDamageable
+public class OLD_PlayerHealth : MonoBehaviour, IDamageable
 {
     [Header("Health Settings")]
     public float maxHealth = 0F;
@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public void TakeDamage(float amount, Vector2 hitDirection)
     {
         // --- CHECK INVINCIBILITY ---
-        PlayerHitReaction hitReaction = GetComponent<PlayerHitReaction>();
+        OLD_PlayerHitReaction hitReaction = GetComponent<OLD_PlayerHitReaction>();
         if (hitReaction != null && hitReaction.IsInvincible())
             return;
 

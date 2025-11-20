@@ -2,7 +2,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public class OLD_EnemyAI : MonoBehaviour
 {
     [Header("Movement Settings")]
     public float moveSpeed = 0F;

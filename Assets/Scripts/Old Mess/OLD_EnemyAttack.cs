@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour
+public class OLD_EnemyAttack : MonoBehaviour
 {
     [Header("Damage Settings")]
     public float damage = 0F;

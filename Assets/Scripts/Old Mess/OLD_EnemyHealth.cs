@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour, IDamageable
+public class OLD_EnemyHealth : MonoBehaviour, IDamageable
 {
     [Header("Health Settings")]
     public float maxHealth = 0F;
