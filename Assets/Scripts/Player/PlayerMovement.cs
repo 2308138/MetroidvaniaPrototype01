@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    [Header("Speed Settings")]
     public float moveSpeed = 0F;
     public float acceleration = 0F;
     public float airControl = 0F;
