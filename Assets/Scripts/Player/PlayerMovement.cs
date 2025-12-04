@@ -3,30 +3,30 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Speed Settings")]
-    public float moveSpeed = 0F;
-    public float acceleration = 0F;
-    public float airControl = 0F;
+    public float moveSpeed = 8F;
+    public float acceleration = 30F;
+    public float airControl = 0.6F;
 
     [Header("Jump Settings")]
-    public float jumpForce = 0F;
-    public float variableJumpMultiplier = 0F;
-    public float coyoteTime = 0F;
-    public float jumpBufferTime = 0F;
+    public float jumpForce = 14F;
+    public float variableJumpMultiplier = 0.5F;
+    public float coyoteTime = 0.12F;
+    public float jumpBufferTime = 0.12F;
 
     [Header("Check Settings")]
     public Transform groundCheck;
-    public float groundRadius = 0F;
+    public float groundRadius = 0.2F;
     public LayerMask groundLayer;
 
     public Transform wallCheck;
-    public float wallDistance = 0F;
+    public float wallDistance = 0.28F;
     public LayerMask wallLayer;
 
     [Header("Wall Movement Settings")]
-    public float wallSlideSpeed = 0F;
-    public Vector2 wallJumpForce = new Vector2(0F, 0F);
-    public float wallJumpDuration = 0F;
-    public float wallStickTime = 0F;
+    public float wallSlideSpeed = 1.6F;
+    public Vector2 wallJumpForce = new Vector2(10F, 14F);
+    public float wallJumpDuration = 0.18F;
+    public float wallStickTime = 0.18F;
 
     // --- RUNTIME VARIABLES --- //
     private Rigidbody2D rb;
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump")) lastJumpPressedTime = jumpBufferTime;
         lastGroundedTime -= Time.deltaTime;
-        lastJumpPressedTiem -= Time.deltaTime;
+        lastJumpPressedTime -= Time.deltaTime;
 
         if (groundCheck != null)
         {
@@ -112,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(rb.linearVelocity.x) > moveSpeed) rb.linearVelocity = new Vector2(Mathf.Sign(rb.linearVelocity.x) * moveSpeed, rb.linearVelocity.y);
 
         if (rb.linearVelocity.y < 0F) rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (1F - 1F) * Time.fixedDeltaTime;
-        else if (rb.linearVelocity.y > 0F && !Input.GetButton("Jump")) rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1F) * Time.fixedDeltaTime;
+        else if (rb.linearVelocity.y > 0F && !Input.GetButton("Jump")) rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (variableJumpMultiplier - 1F) * Time.fixedDeltaTime;
 
         if (isWallSliding) rb.linearVelocity = new Vector2(rb.linearVelocity.x, Mathf.Clamp(rb.linearVelocity.y, -wallSlideSpeed, float.MaxValue));
     }

@@ -3,14 +3,14 @@ using UnityEngine;
 public class Health : MonoBehaviour, IDamageable
 {
     [Header("Health Settings")]
-    public float maxHealth = 0F;
+    public float maxHealth = 10F;
     [HideInInspector] public float currentHealth;
 
     [Header("Hit / Death Settings")]
     public HitResponder hitResponder;
     public KnockbackReceiver knockbackReceiver;
     public GameObject deathPrefab;
-    public float destroyDelay = 0F;
+    public float destroyDelay = 0.4F;
 
     private bool isDead = false;
 
@@ -45,8 +45,8 @@ public class Health : MonoBehaviour, IDamageable
     {
         if (deathPrefab != null) Instantiate(deathPrefab, transform.position, Quaternion.identity);
 
-        foreach (var col in GetComponenets<Collider2D>()) col.enabled = false;
-        foreach (var mb in GetComponenets<MonoBehaviour>()) if (mb != this) mb.enabled = false;
+        foreach (var col in GetComponents<Collider2D>()) col.enabled = false;
+        foreach (var mb in GetComponents<MonoBehaviour>()) if (mb != this) mb.enabled = false;
 
         var rb = GetComponent<Rigidbody>();
         if (rb != null)

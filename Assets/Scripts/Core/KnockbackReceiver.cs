@@ -4,13 +4,13 @@ using UnityEngine;
 public class KnockbackReceiver : MonoBehaviour
 {
     [Header("Knockback Settings")]
-    public float knockbackForce = 0F;
-    public float knockbackUpward = 0F;
-    public float recoveryTime = 0F;
+    public float knockbackForce = 6F;
+    public float knockbackUpward = 1.2F;
+    public float recoveryTime = 0.12F;
 
     [Header("Stun Settings")]
     public bool blockDuringStun = true;
-    public float stunTime = 0F;
+    public float stunTime = 0.12F;
 
     // --- RUNTIME VARIABLES --- //
     private Rigidbody2D rb;

@@ -9,17 +9,17 @@ public class HitResponder : MonoBehaviour
 
     [Header("Flash Settings")]
     public Color flashColor = Color.white;
-    public Color hurtColor = new Color(0F, 0F, 0F);
-    public float flashDuration = 0F;
+    public Color hurtColor = new Color(1.4F, 0.4F, 0.4F);
+    public float flashDuration = 0.12F;
 
     [Header("Pop Settings")]
-    public float popScale = 0F;
-    public float popDuration = 0F;
+    public float popScale = 1.12F;
+    public float popDuration = 0.08F;
 
     [Header("Shake Settings")]
     public CameraShake cameraShake;
-    public float shakeDuration = 0F;
-    public float shakeMagnitude = 0F;
+    public float shakeDuration = 0.08F;
+    public float shakeMagnitude = 0.04F;
 
     // --- RUNTIME VARIABLES --- //
     private SpriteRenderer sr;
