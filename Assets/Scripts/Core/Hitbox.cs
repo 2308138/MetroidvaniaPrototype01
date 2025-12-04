@@ -27,6 +27,7 @@ public class Hitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.transform.root == transform.root) return; // THIS IS REFERENCED ONLINE
         if (((1 << other.gameObject.layer) & hitLayer) == 0) return;
 
         var d = other.GetComponent<IDamageable>();

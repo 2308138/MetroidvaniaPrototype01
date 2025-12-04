@@ -10,8 +10,11 @@ public class PlayerFlashOnHit : MonoBehaviour
     private float flashDuration = 0.1F;
     private Coroutine flashRoutine;
 
-    private void Awake() => originalColor = sr.color;
-
+    private void Awake()
+    {
+        sr = GetComponentInChildren<SpriteRenderer>();
+        originalColor = sr.color; 
+    }
     public void Flash()
     {
         if (flashRoutine != null) StopCoroutine(flashRoutine);
@@ -22,7 +25,7 @@ public class PlayerFlashOnHit : MonoBehaviour
     IEnumerator FlashCoroutine()
     {
         sr.color = flashColor;
-        yield return new WaitForSecodns(flashDuration);
+        yield return new WaitForSeconds(flashDuration);
         sr.color = originalColor;
     }
 }
