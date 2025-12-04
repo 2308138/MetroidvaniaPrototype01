@@ -22,6 +22,7 @@ public class KnockbackReceiver : MonoBehaviour
     public void ApplyKnockback(Vector2 hitDirection)
     {
         if (isRecovering) return;
+
         StartCoroutine(KnockbackCoroutine(hitDirection));
     }
 

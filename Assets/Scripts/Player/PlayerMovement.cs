@@ -53,25 +53,30 @@ public class PlayerMovement : MonoBehaviour
     {
         if (knockbackReceiver != null && knockbackReceiver.IsStunned()) return;
 
+        // --- CHECK INPUT --- //
         moveInput = Input.GetAxisRaw("Horizontal");
         if (moveInput != 0F && sr != null) sr.flipX = moveInput < 0F;
 
+        // --- TIMER CALCULATION --- //
         if (Input.GetButtonDown("Jump")) lastJumpPressedTime = jumpBufferTime;
         lastGroundedTime -= Time.deltaTime;
         lastJumpPressedTime -= Time.deltaTime;
 
+        // --- CHECK GROUNDED --- //
         if (groundCheck != null)
         {
             isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
             if (isGrounded) lastGroundedTime = coyoteTime;
         }
 
+        // --- CHECK WALL --- //
         float facing = (sr != null && sr.flipX) ? -1F : 1F;
         if (wallCheck != null) isTouchingWall = Physics2D.Raycast(wallCheck.position, Vector2.right * facing, wallDistance, wallLayer);
 
         if (isTouchingWall && !isGrounded) wallStickTimer = wallStickTime;
         else wallStickTimer = Mathf.Max(0F, wallStickTimer - Time.deltaTime);
 
+        // --- JUMP TIMER CALCULATION --- //
         if (lastJumpPressedTime > 0F && lastGroundedTime > 0F)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
@@ -79,10 +84,13 @@ public class PlayerMovement : MonoBehaviour
             lastGroundedTime = 0F;
         }
 
+        // --- VARIABLE JUMP HEIGHT --- //
         if (Input.GetButtonUp("Jump") && rb.linearVelocity.y > 0F) rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * variableJumpMultiplier);
 
+        // --- CHECK IF WALL SLIDING --- //
         isWallSliding = isTouchingWall && !isGrounded && rb.linearVelocity.y < 0F;
 
+        // --- WALL JUMP CALCULATION --- //
         if (Input.GetButtonDown("Jump") && (isWallSliding || wallStickTimer > 0F))
         {
             isWallJumping = true;
@@ -102,6 +110,7 @@ public class PlayerMovement : MonoBehaviour
         if (knockbackReceiver != null && knockbackReceiver.IsStunned()) return;
         if (isWallJumping) return;
 
+        // --- SPEED CALCULATION --- //
         float targetSpeed = moveInput * moveSpeed;
         float speedDiff = targetSpeed - rb.linearVelocity.x;
         float accelRate = isGrounded ? acceleration : (acceleration * airControl);

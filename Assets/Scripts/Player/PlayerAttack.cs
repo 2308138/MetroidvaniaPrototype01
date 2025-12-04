@@ -19,13 +19,17 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
+        // --- TIMER DECREASE --- //
         cooldownTimer -= Time.deltaTime;
+
+        // --- CHECK INPUT --- //
         if (cooldownTimer <= 0F && (Input.GetKeyDown(KeyCode.J)) || Input.GetButtonDown("Fire1"))
         {
             Attack();
             cooldownTimer = cooldown;
         }
 
+        // --- ATTACK POINT CALCULATION --- //
         if (attackPoint != null && sr != null)
         {
             Vector3 lp = attackPoint.localPosition;
@@ -38,6 +42,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (attackPoint == null) return;
 
+        // --- CHECK HITBOX --- //
         var hits = Physics2D.OverlapBoxAll(attackPoint.position, attackSize, 0F, enemyLayer);
         foreach (var h in hits)
         {
