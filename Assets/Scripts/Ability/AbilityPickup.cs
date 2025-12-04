@@ -6,6 +6,8 @@ public class AbilityPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!collision.CompareTag("Player")) return;
+
         PlayerAbilityManager abilities = collision.GetComponent<PlayerAbilityManager>();
 
         if (abilities != null)

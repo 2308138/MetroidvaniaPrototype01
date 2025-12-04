@@ -8,12 +8,11 @@ public class AbilityDoor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!collision.CompareTag("Player")) return;
         if (isOpen) return;
 
         PlayerAbilityManager abilities = collision.GetComponent<PlayerAbilityManager>();
-        if (abilities == null) return;
-
-        if (abilities.HasAbility(requiredAbility)) OpenDoor();
+        if (abilities != null && abilities.HasAbility(requiredAbility)) OpenDoor();
         else Debug.Log("Door locked. Requires: " + requiredAbility);
     }
 
