@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private float wallStickTimer;
 
     public KnockbackReceiver knockbackReceiver;
+    public Vector2 lastMoveDirection {  get; private set; }
 
     private void Awake()
     {
@@ -55,6 +56,10 @@ public class PlayerMovement : MonoBehaviour
 
         // --- CHECK INPUT --- //
         moveInput = Input.GetAxisRaw("Horizontal");
+        if (moveInput != 0) lastMoveDirection = new Vector2(moveInput, 0F);
+        else lastMoveDirection = new Vector2(sr.flipX ? -1F : 1F, 0F);
+
+        // --- FLIP CHECK --- //
         if (moveInput != 0F && sr != null) sr.flipX = moveInput < 0F;
 
         // --- TIMER CALCULATION --- //

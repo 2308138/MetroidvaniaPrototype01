@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class AbilityDoor : MonoBehaviour
 {
-    public string requiredAbility = "DoorKey";
+    [Header("Ability Settings")]
+    public string requiredAbility = "AbilityDoor";
     public Animator animator;
     public bool isOpen = false;
 
