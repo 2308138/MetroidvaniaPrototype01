@@ -53,6 +53,11 @@ public class ParryHitbox : MonoBehaviour
             }
             return;
         }
+
+        // --- BOSS MELEE BEHAVIOR --- //
+        if (collision.TryGetComponent<BossState_AttackSlash>(out var slash)) slash.OnParried();
+        if (collision.TryGetComponent<BossState_AttackDash>(out var finisher)) finisher.OnParried();
+
     }
 
     IEnumerator ReenableColliderAfter(Collider2D target, float delay)

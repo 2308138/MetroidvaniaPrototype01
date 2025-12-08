@@ -67,4 +67,15 @@ public class BossState_AttackDash : BossState
             dmg.TakeDamage(finisherDamage, dir);
         }
     }
+
+    public void OnParried()
+    {
+        // --- DISABLE ATTACK --- //
+        finisherHitbox.enabled = false;
+
+        // --- BUILD UP STAGGER --- //
+        boss.AddStagger(boss.staggerGain);
+
+        if (!(boss.currentState is BossState_Stagger)) boss.SwitchState(boss.idleState);
+    }
 }

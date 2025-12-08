@@ -61,4 +61,15 @@ public class BossState_AttackSlash : BossState
             dmg.TakeDamage(slashDamage, dir);
         }
     }
+
+    public void OnParried()
+    {
+        // --- DISABLE ATTACK --- //
+        slashHitbox.enabled = false;
+
+        // --- BUILD UP STAGGER --- //
+        boss.AddStagger(boss.staggerGain);
+
+        if (!(boss.currentState is BossState_Stagger)) boss.SwitchState(boss.idleState);
+    }
 }

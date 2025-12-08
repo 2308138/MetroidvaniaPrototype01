@@ -23,6 +23,12 @@ public class BossController : MonoBehaviour
     public BossState_AttackJump jumpAttack;
     public BossState_AttackSpread spreadAttack;
 
+    [Header("Stagger Settings")]
+    public float staggerMeter = 0F;
+    public float staggerMax = 10F;
+    public float staggerGain = 1.5F;
+    public float staggerStunDuration = 2F;
+
     // --- RUNTIME VARIABLES --- //
     private bool phase2Unlocked = false;
     private bool phase3Unlocked = false;
@@ -80,6 +86,17 @@ public class BossController : MonoBehaviour
         {
             phase3Unlocked = true;
             Debug.Log("Boss Phase 3.. START");
+        }
+    }
+
+    public void AddStagger(float amount)
+    {
+        staggerMeter += amount;
+
+        if (staggerMeter >= staggerMax)
+        {
+            staggerMeter = 0F;
+            TriggerStagger(staggerStunDuration);
         }
     }
 
