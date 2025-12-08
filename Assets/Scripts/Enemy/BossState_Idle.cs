@@ -27,8 +27,8 @@ public class BossState_Idle : BossState
     {
         float r = Random.value;
 
-        // --- PHASE 1 ATTACK BEHAVIOR --- //
-        if (!boss.currentHealth <= boss.phase2Threshold)
+        // --- PHASE 1 ATTACK POOL --- //
+        if (boss.currentHealth > boss.phase2Threshold)
         {
             if (r < 0.6F) boss.SwitchState(boss.slashAttack);
             else boss.SwitchState(boss.dashAttack);
@@ -36,7 +36,7 @@ public class BossState_Idle : BossState
             return;
         }
 
-        // --- PHASE 2 & 3 ATTACK BEHAVIOR --- //
+        // --- PHASE 2 & 3 ATTACK POOL --- //
         if (r < 0.35F) boss.SwitchState(boss.slashAttack);
         if (r < 0.65F) boss.SwitchState(boss.dashAttack);
         if (r < 0.85F) boss.SwitchState(boss.jumpAttack);
