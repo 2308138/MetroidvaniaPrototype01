@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 6468718481912872136}
   m_Layer: 7
   m_Name: Enemy(TestDummy)
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -308,8 +308,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   currentHealth: 0
-  hitResponder: {fileID: 0}
-  knockbackReceiver: {fileID: 0}
+  hitResponder: {fileID: 1445293138597541745}
+  knockbackReceiver: {fileID: 6468718481912872136}
   deathPrefab: {fileID: 2155377977795342697, guid: c7cb0e0cbdad2ac43b1307df0e6e4c42, type: 3}
   destroyDelay: 0.4
 --- !u!114 &1445293138597541745

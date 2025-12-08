@@ -34,11 +34,14 @@ public class RangedEnemyAttack : MonoBehaviour
     {
         if (!projectilePrefab || !firePoint) return;
 
-        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-
         // --- DIRECTION CALCULATION --- //
-        Vector2 direction = (player.position - firePoint.position).normalized;
+        Collider2D playerCol = player.GetComponent<Collider2D>();
+        Vector2 targetPos = playerCol != null ? playerCol.bounds.center : player.position;
+        Vector2 direction = (targetPos - (Vector2)firePoint.position).normalized;
+
+        // --- SPAWN PROJECTILE --- //
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
         Projectile projectile = proj.GetComponent<Projectile>();
-        projectile?.Initialize(direction);
+        if (projectile != null) projectile?.Initialize(direction, gameObject);
     }
 }
