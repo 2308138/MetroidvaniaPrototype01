@@ -1,7 +1,6 @@
 using System.Threading;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Boss/States/Idle")] // --- REFERENCED ONLINE --- //
 public class BossState_Idle : BossState
 {
     [Header("State Settings")]
