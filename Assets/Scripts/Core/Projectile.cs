@@ -19,6 +19,7 @@ public class Projectile : MonoBehaviour
     private Collider2D col;
     private SpriteRenderer sr;
     private bool ignoreSetupDone = false;
+    private bool hasReflected = false;
 
     public void Initialize(Vector2  direction, GameObject ownerObject)
     {
@@ -68,6 +69,8 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.TryGetComponent<ParryHitbox>(out var ph)) return;
+        
         if (owner != null && collision.transform.root == owner.transform.root) return;
         
         // --- IGNORE TRIGGERS WITH SAME-FACTION --- //
@@ -76,11 +79,13 @@ public class Projectile : MonoBehaviour
 
         if (collision.TryGetComponent<IDamageable>(out var target)) target.TakeDamage(damage, moveDirection);
 
-        Destroy(gameObject);
+        if (!hasReflected) Destroy(gameObject);
     }
 
     public void Reflect(GameObject newOwner)
     {
+        hasReflected = true;
+
         // --- DIRECTION RECALCULATION --- //
         moveDirection = -moveDirection;
         owner = newOwner;

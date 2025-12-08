@@ -60,4 +60,11 @@ public class ParryHitbox : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (target != null) target.enabled = true;
     }
+
+    public void ReflectProjectile(Projectile projectile)
+    {
+        if (projectile == null) return;
+
+        projectile.Reflect(transform.root.gameObject);
+    }
 }

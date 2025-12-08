@@ -63,7 +63,7 @@ public class AbilityParry : MonoBehaviour
         float t = 0F;
         while (t < holdThreshold)
         {
-            if (!(Input.GetKey(KeyCode.K)) || Input.GetMouseButton(1)) yield break;
+            if (!Input.GetKey(KeyCode.K) && !Input.GetMouseButton(1)) yield break;
             t += Time.deltaTime;
             yield return null;
         }

@@ -2082,6 +2082,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2873955235542617923, guid: 0822a17916030f04e82ed65113a9a4a4, type: 3}
+      propertyPath: m_TagString
+      value: Parry
+      objectReference: {fileID: 0}
     - target: {fileID: 6654746786769171611, guid: 0822a17916030f04e82ed65113a9a4a4, type: 3}
       propertyPath: cameraShake
       value: 
