@@ -77,6 +77,7 @@ public class Projectile : MonoBehaviour
         if (faction == ProjectileFaction.Enemy && collision.CompareTag("Enemy")) return;
         if (faction == ProjectileFaction.Player && collision.CompareTag("Player")) return;
 
+        // --- DAMAGE LOGIC --- //
         if (collision.TryGetComponent<IDamageable>(out var target)) target.TakeDamage(damage, moveDirection);
 
         if (!hasReflected) Destroy(gameObject);

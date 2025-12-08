@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class BossState_AttackSlash : BossState
 {
-    [Header("Slash Settings")]
+    [Header("Timing Settings")]
     public float windupTime = 0.4F;
     public float activeTime = 0.01F;
     public float recoveryTime = 0.5F;
 
-    [Header("Attack Settigns")]
+    [Header("Slash Settings")]
     public Collider2D slashHitbox;
     public float slashDamage = 1F;  
 
