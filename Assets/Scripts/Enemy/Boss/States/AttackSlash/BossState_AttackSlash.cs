@@ -8,8 +8,8 @@ public class BossState_AttackSlash : BossState
     public float recoveryTime = 0.5F;
 
     [Header("Attack Settigns")]
-    public float slashDamage = 1F;
     public Collider2D slashHitbox;
+    public float slashDamage = 1F;  
 
     // --- RUNTIME VARIABLES --- //
     private float timer;
