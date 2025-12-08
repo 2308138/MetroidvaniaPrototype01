@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BossState_AttackSlash : BossState
 {
-    [Header("Timing Settings")]
+    [Header("Slash Settings")]
     public float windupTime = 0.4F;
     public float activeTime = 0.01F;
     public float recoveryTime = 0.5F;
