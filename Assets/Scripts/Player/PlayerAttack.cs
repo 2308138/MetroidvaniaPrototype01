@@ -23,7 +23,7 @@ public class PlayerAttack : MonoBehaviour
         cooldownTimer -= Time.deltaTime;
 
         // --- CHECK INPUT --- //
-        if (cooldownTimer <= 0F && (Input.GetKeyDown(KeyCode.J)) || Input.GetButtonDown("Fire1"))
+        if (cooldownTimer <= 0F && (Input.GetKeyDown(KeyCode.J)) || Input.GetMouseButtonDown(0))
         {
             Attack();
             cooldownTimer = cooldown;

@@ -39,14 +39,14 @@ public class AbilityParry : MonoBehaviour
         if (!canParry) return;
 
         // --- CHECK FOR INPUT --- //
-        if (Input.GetKeyDown(KeyCode.K) || Input.GetButtonDown("Fire2"))
+        if (Input.GetKeyDown(KeyCode.K) || Input.GetMouseButtonDown(1))
         {
             if (holdCheckCoroutine != null) StopCoroutine(holdCheckCoroutine);
             holdCheckCoroutine = StartCoroutine(HoldCheck());
         }
 
         // --- CHECK IF RELEASED EARLY TO TRANSITION TO TAP OR BLOCK "MODE" --- //
-        if (Input.GetKeyUp(KeyCode.K) || Input.GetButtonUp("Fire2"))
+        if (Input.GetKeyUp(KeyCode.K) || Input.GetMouseButtonUp(1))
         {
             if (IsBlockActive) StopBlock();
             else if (holdCheckCoroutine != null)
@@ -63,7 +63,7 @@ public class AbilityParry : MonoBehaviour
         float t = 0F;
         while (t < holdThreshold)
         {
-            if (!Input.GetKey(KeyCode.K) || Input.GetButton("Fire2")) yield break;
+            if (!(Input.GetKey(KeyCode.K)) || Input.GetMouseButton(1)) yield break;
             t += Time.deltaTime;
             yield return null;
         }
@@ -94,7 +94,7 @@ public class AbilityParry : MonoBehaviour
     {
         if (blockCoroutine != null) StopCoroutine(blockCoroutine);
         IsBlockActive = true;
-        EnableParryHitBox(true);
+        EnableParryHitbox(true);
         blockCoroutine = StartCoroutine(BlockRoutine());
     }
 
@@ -104,7 +104,7 @@ public class AbilityParry : MonoBehaviour
         float elapsed = 0F;
 
         // --- HOLD BLOCK TIMER --- //
-        while (Input.GetKey(KeyCode.K) || Input.GetButton("Fire2") && elapsed < blockMaxDuration)
+        while ((Input.GetKey(KeyCode.K) || Input.GetMouseButton(1)) && elapsed < blockMaxDuration)
         {
             elapsed += Time.deltaTime;
             yield return null;
@@ -138,7 +138,7 @@ public class AbilityParry : MonoBehaviour
         if (kb != null)
         {
             // --- DIRECTION CALCULATION --- //
-            Vector2 dir = (attackerRoot.transform.position - transform.postiion).normalized;
+            Vector2 dir = (attackerRoot.transform.position - transform.position).normalized;
             kb.ApplyKnockback(dir * parryKnockback);
         }
 

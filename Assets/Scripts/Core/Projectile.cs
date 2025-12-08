@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
+public enum ProjectileFaction { Enemy, Player } // --- REFERENCED ONLINE --- //
 public class Projectile : MonoBehaviour
 {
     [Header("Projectile Settings")]
@@ -8,17 +9,22 @@ public class Projectile : MonoBehaviour
     public float damage = 1F;
     public float lifeTime = 3F;
 
+    [Header("Faction Settings")]
+    public ProjectileFaction faction = ProjectileFaction.Enemy;
+
     // --- RUNTIME VARIABLES --- //
     private Vector2 moveDirection;
     private Rigidbody2D rb;
     private GameObject owner;
     private Collider2D col;
     private SpriteRenderer sr;
+    private bool ignoreSetupDone = false;
 
     public void Initialize(Vector2  direction, GameObject ownerObject)
     {
         moveDirection = direction.normalized;
         owner = ownerObject;
+        faction = ProjectileFaction.Enemy;
 
         StartCoroutine(SetupIgnoreCollisions());
 
@@ -30,7 +36,7 @@ public class Projectile : MonoBehaviour
     {
         yield return null;
 
-        if (owner == null || col == null) yield break;
+        if (owner == null || col == null) { ignoreSetupDone = true; yield break; }
 
         // --- IGNORE SELF COLLIDER --- //
         var ownerColliders = owner.GetComponents<Collider2D>();
@@ -45,6 +51,8 @@ public class Projectile : MonoBehaviour
             var ecs = e.GetComponents<Collider2D>();
             foreach (var ec in ecs) Physics2D.IgnoreCollision(col, ec, true);
         }
+
+        ignoreSetupDone = true;
     }
 
     private void Awake()
@@ -61,10 +69,41 @@ public class Projectile : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (owner != null && collision.transform.root == owner.transform.root) return;
-        if (collision.CompareTag("Enemy")) return;
+        
+        // --- IGNORE TRIGGERS WITH SAME-FACTION --- //
+        if (faction == ProjectileFaction.Enemy && collision.CompareTag("Enemy")) return;
+        if (faction == ProjectileFaction.Player && collision.CompareTag("Player")) return;
 
         if (collision.TryGetComponent<IDamageable>(out var target)) target.TakeDamage(damage, moveDirection);
 
         Destroy(gameObject);
+    }
+
+    public void Reflect(GameObject newOwner)
+    {
+        // --- DIRECTION RECALCULATION --- //
+        moveDirection = -moveDirection;
+        owner = newOwner;
+        faction = ProjectileFaction.Player;
+
+        // --- RE-ORIENT SPRITE --- //
+        if (sr != null) sr.flipX = moveDirection.x < 0F;
+
+        StartCoroutine(ResetCollisionIgnores());
+    }
+
+    IEnumerator ResetCollisionIgnores()
+    {
+        yield return null;
+
+        if (col == null) yield break;
+
+        // --- RESET COLLIDERS --- //
+        var enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (var e in enemies)
+        {
+            var ecs = e.GetComponents<Collider2D>();
+            foreach (var ec in ecs) if (ec != null) Physics2D.IgnoreCollision(col, ec, false);
+        }
     }
 }
