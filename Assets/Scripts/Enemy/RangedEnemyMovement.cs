@@ -41,7 +41,7 @@ public class RangedEnemyMovement : MonoBehaviour
         isChasing = dist <= chaseRange;
 
         // --- BEHAVIOR HANDLING --- //
-        if (isChasing) Chase();
+        if (isChasing) Chase(dist);
         else Patrol();
 
         // --- FLIP HANDLING --- //
