@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -90,5 +91,42 @@ public class HitResponder : MonoBehaviour
         }
 
         transform.localScale = originalScale;
+    }
+
+    public void PlayParryFlash()
+    {
+        if (sr != null) StartCoroutine(ParryFlashCoroutine());
+    }
+
+    IEnumerator ParryFlashCoroutine()
+    {
+        if (sr == null) yield break;
+
+        Color original = sr.color;
+        sr.color = new Color(2F, 2F, 2F);
+        yield return new WaitForSeconds(0.06F);
+        sr.color = original;
+    }
+
+    public void PlayStaggerFlash()
+    {
+        if (sr != null) StartCoroutine(StaggerFlashCoroutine());
+    }
+
+    IEnumerator StaggerFlashCoroutine()
+    {
+        if (sr == null) yield break;
+
+        Color original = sr.color;
+
+        // --- WHITE BURST --- //
+        sr.color = new Color(1.5F, 1.5F, 1.5F);
+        yield return new WaitForSeconds(0.08F);
+
+        // --- YELLOW-ISH GLOW --- //
+        sr.color = new Color(1.5F, 1.2F, 0.7F);
+        yield return new WaitForSeconds(1.8F);
+
+        sr.color = original;
     }
 }

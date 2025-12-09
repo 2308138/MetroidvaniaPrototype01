@@ -76,6 +76,9 @@ public class BossState_AttackDash : BossState
         // --- BUILD UP STAGGER --- //
         boss.AddStagger(boss.staggerGain);
 
+        // --- PARRY FLASH --- //
+        boss.GetComponent<HitResponder>()?.PlayParryFlash();
+
         if (!(boss.currentState is BossState_Stagger)) boss.SwitchState(boss.idleState);
     }
 }

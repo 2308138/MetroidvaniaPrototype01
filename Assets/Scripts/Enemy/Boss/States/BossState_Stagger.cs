@@ -15,6 +15,9 @@ public class BossState_Stagger : BossState
 
         // --- DISABLE ATTACK HITBOXES (IF ANY) --- //
         foreach (var col in boss.GetComponentsInChildren<Collider2D>()) if (col.isTrigger) col.enabled = false;
+
+        // --- PARRY FLASH --- //
+        boss.GetComponent<HitResponder>()?.PlayParryFlash();
     }
 
     public override void UpdateState()
