@@ -14,7 +14,7 @@ public class Health : MonoBehaviour, IDamageable
     public float destroyDelay = 0.4F;
 
     // --- UI EVENTS --- //
-    public event Action<float> onHealthChanged;
+    public event Action<float, float> onHealthChanged;
     public event Action<float> onDamaged;
     public event Action onDeath;
 
@@ -33,14 +33,13 @@ public class Health : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
-        float normalized = Mathf.Clamp01(currentHealth / maxHealth);
 
         // --- FIND WORLDSPACE BAR --- //
         var ws = GetComponentInChildren<UI_EnemyWorldspaceHealthBar>();
         if (ws != null) ws.SetHealth(currentHealth, maxHealth);
 
         // --- UI EVENTS --- //
-        onHealthChanged?.Invoke(normalized);
+        onHealthChanged?.Invoke(currentHealth, maxHealth);
         onDamaged?.Invoke(amount);
 
         // --- DMG NUMBERS LOCATION --- //

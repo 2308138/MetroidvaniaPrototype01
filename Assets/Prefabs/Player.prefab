@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 7235479625723528201}
-  attackSize: {x: 0.9, y: 0.6}
+  attackSize: {x: 2.1, y: 1.6}
   damage: 1
   cooldown: 0.28
   enemyLayer:
@@ -291,6 +291,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfa732d8b99b942479dfade12f0e2f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredAbility: AbilityParry
+  tapWindow: 0.16
+  holdThreshold: 0.18
+  blockMaxDuration: 2
+  cooldown: 0.3
+  parryKnockback: 6
+  parryStun: 0.2
 --- !u!1 &2821467984390519904
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,6 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe085796b3e046049910840f8eec46c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerParry: {fileID: 0}
 --- !u!1 &3703293226270470297
 GameObject:
   m_ObjectHideFlags: 0

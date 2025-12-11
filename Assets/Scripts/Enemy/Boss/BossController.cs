@@ -31,10 +31,10 @@ public class BossController : MonoBehaviour
     public float staggerStunDuration = 2F;
 
     // --- UI EVENTS --- //
-    public event Action<float> onBossHealthChanged;
+    public event Action<float, float> onBossHealthChanged;
     public event Action<float> onBossDamaged;
     public event Action<int> onBossPhaseChanged;
-    public event Action<float> onStaggerChanged;
+    public event Action<float, float> onStaggerChanged;
 
     // --- RUNTIME VARIABLES --- //
     private bool phase2Unlocked = false;
@@ -75,10 +75,9 @@ public class BossController : MonoBehaviour
 
         // --- DAMAGE CALCULATION --- //
         currentHealth -= amount;
-        float normalized = Mathf.Clamp01(currentHealth / maxHealth);
 
         // --- UI EVENTS --- //
-        onBossHealthChanged?.Invoke(normalized);
+        onBossHealthChanged?.Invoke(currentHealth, maxHealth);
         onBossDamaged?.Invoke(amount);
 
         if (currentHealth <= 0)
@@ -107,13 +106,12 @@ public class BossController : MonoBehaviour
     {
         staggerMeter += amount;
 
-        float normalized = Mathf.Clamp01(staggerMeter / staggerMax);
-        onStaggerChanged?.Invoke(normalized);
+        onStaggerChanged?.Invoke(staggerMeter, staggerMax);
 
         if (staggerMeter >= staggerMax)
         {
             staggerMeter = 0F;
-            onStaggerChanged?.Invoke(0F);
+            onStaggerChanged?.Invoke(0F, staggerMax);
             TriggerStagger(staggerStunDuration);
         }
     }

@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -75,10 +76,25 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // --- CHECK WALL --- //
-        float facing = (sr != null && sr.flipX) ? -1F : 1F;
-        if (wallCheck != null) isTouchingWall = Physics2D.Raycast(wallCheck.position, Vector2.right * facing, wallDistance, wallLayer);
+        float facing = moveInput != 0 ? Mathf.Sign(moveInput) : (sr != null && sr.flipX ? -1F : 1F);
+        Vector2 rayOrigin;
 
-        if (isTouchingWall && !isGrounded) wallStickTimer = wallStickTime;
+        if (wallCheck != null)
+        {
+            Vector2 local = wallCheck.localPosition;
+            Vector2 mirroredLocal = new Vector3(local.x * facing, local.y);
+            rayOrigin = (Vector2)transform.position + mirroredLocal;
+        }
+        else rayOrigin = transform.position;
+
+        Vector2 rayDir = Vector2.right * facing;
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDir, wallDistance, wallLayer);
+        isTouchingWall = hit.collider != null;
+
+        Debug.DrawRay(rayOrigin, rayDir * wallDistance, isTouchingWall ? Color.red : Color.green);
+
+        // --- WALL STICK TIMER --- //
+        if (isTouchingWall && !isGrounded && moveInput == Mathf.Sign(facing)) wallStickTimer = wallStickTime;
         else wallStickTimer = Mathf.Max(0F, wallStickTimer - Time.deltaTime);
 
         // --- JUMP TIMER CALCULATION --- //
@@ -101,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
             isWallJumping = true;
             Invoke(nameof(StopWallJump), wallJumpDuration);
 
-            float wallDir = (sr != null && sr.flipX) ? -1F : 1F;
+            float wallDir = facing;
             Vector2 force = new Vector2(-wallDir * wallJumpForce.x, wallJumpForce.y);
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(force, ForceMode2D.Impulse);
