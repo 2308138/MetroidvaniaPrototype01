@@ -197,7 +197,7 @@ MonoBehaviour:
   knockbackReceiver: {fileID: 3502397487553610998}
   deathPrefab: {fileID: 2155377977795342697, guid: c7cb0e0cbdad2ac43b1307df0e6e4c42, type: 3}
   destroyDelay: 0.4
-  worldBarPrefab: {fileID: 6709543616349289805, guid: 0d1677b26d533234b9f0a16892b05ab9, type: 3}
+  worldBarPrefab: {fileID: 5904944965604145444, guid: f78285c324a408d4b928b39ac0e70631, type: 3}
 --- !u!114 &5888917170985763427
 MonoBehaviour:
   m_ObjectHideFlags: 0

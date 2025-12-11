@@ -22,15 +22,18 @@ public class UI_Manager : MonoBehaviour
     private void Start()
     {
         // --- PLAYER UI --- //
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        var playerHealth = GameObject.FindGameObjectWithTag("Player")?.GetComponent<Health>();
         if (playerHealth != null )
         {
             playerHealth.onHealthChanged += playerHealthUI.SetHP;
             playerHealth.onDamaged += SpawnDamageNumber;
         }
 
+        // --- ENEMY UI --- //
+        foreach (var h in FindObjectsOfType<Health>()) if (!h.CompareTag("Player")) h.onDamaged += SpawnDamageNumber;
+
         // --- BOSS UI --- //
-        boss = FindObjectOfType<BossController>();
+        var boss = FindObjectOfType<BossController>();
         if (boss != null)
         {
             boss.onBossHealthChanged += bossHealthUI.SetHealth;
@@ -49,7 +52,6 @@ public class UI_Manager : MonoBehaviour
         if (!damageNumberPrefab || !worldspaceCanvas) return;
 
         GameObject obj = Instantiate(damageNumberPrefab, worldspaceCanvas.transform);
-        var ui = obj.GetComponent<UI_DamageNumbers>();
-        ui.Show(dmg);
+        obj.GetComponent<UI_DamageNumbers>().Show(dmg);
     }
 }

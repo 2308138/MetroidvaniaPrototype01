@@ -3,30 +3,35 @@ using UnityEngine;
 
 public class UI_DamageNumbers : MonoBehaviour
 {
-    [Header("UI Settings")]
-    public float riseSpeed = 1.2F;
-    public float lifeTime = 0.8F;
+    [Header("UI Hook")]
+    public TMP_Text text;
 
     // --- RUNTIME VARIABLES --- //
-    private TextMeshProUGUI text;
-    private float timer;
+    private float lifeTime = 0.6F;
+    private float speed = 12F;
+    private float fadeSpeed = 2F;
 
-    public void Show(float dmg)
+    private void Awake()
     {
-        text = GetComponent<TextMeshProUGUI>();
-        text.text = Mathf.RoundToInt(dmg).ToString();
-        timer = lifeTime;
+        if (text == null) text = GetComponentInChildren<TMP_Text>();
     }
 
     private void Update()
     {
-        transform.position += Vector3.up * riseSpeed * Time.deltaTime;
+        if (text == null) return;
 
-        timer -= Time.deltaTime;
-        float alpha = timer / lifeTime;
+        lifeTime -= Time.deltaTime;
 
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
+        float alpha = Mathf.Clamp01(lifeTime * fadeSpeed);
         text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
 
-        if (timer <= 0) Destroy(gameObject);
+        if (lifeTime <= 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
+
+    public void Show(float value) => text.text = value.ToString();
 }

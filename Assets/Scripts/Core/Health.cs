@@ -25,6 +25,7 @@ public class Health : MonoBehaviour, IDamageable
     private bool isDead = false;
     private UI_PlayerHealthBar playerUI;
     private UI_EnemyWorldspaceHealthBar enemyUI;
+    private UI_Manager ui;
 
     private void Awake()
     {
@@ -35,9 +36,10 @@ public class Health : MonoBehaviour, IDamageable
         if (!CompareTag("Player"))
         {
             Transform parent = GameObject.Find("WorldspaceUI").transform;
-            var barObj = Instantiate(worldBarPrefab, transform.position, Quaternion.identity, parent);
-            enemyUI = barObj.GetComponent<UI_EnemyWorldspaceHealthBar>();
-            enemyUI.enemy = transform;
+            GameObject barObj = Instantiate(worldBarPrefab, transform.position, Quaternion.identity, parent);
+            enemyUI = barObj.GetComponentInChildren<UI_EnemyWorldspaceHealthBar>(true);
+            if (enemyUI == null) enemyUI = barObj.GetComponent<UI_EnemyWorldspaceHealthBar>();
+            if (enemyUI != null) enemyUI.enemy = transform;
         }
     }
 
@@ -52,13 +54,12 @@ public class Health : MonoBehaviour, IDamageable
         onDamaged?.Invoke(amount);
 
         // --- DMG NUMBERS LOCATION --- //
-        UI_Manager ui = FindObjectOfType<UI_Manager>();
         if (ui != null && ui.worldspaceCanvas != null && ui.damageNumberPrefab != null)
         {
-            GameObject obj = Instantiate(ui.damageNumberPrefab, ui.worldspaceCanvas.transform);
-            obj.GetComponent<UI_DamageNumbers>().Show(Mathf.RoundToInt(amount));
-            Vector3 screen = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1F);
-            obj.transform.position = screen;
+            Vector3 worldPos = transform.position + Vector3.up * 1.5F;
+            GameObject num = Instantiate(ui.damageNumberPrefab, ui.worldspaceCanvas.transform);
+            num.transform.position = worldPos;
+            num.GetComponent<UI_DamageNumbers>()?.Show(amount);
         }
 
         // --- VFX + KNOCKBACK APPLICATION --- //
