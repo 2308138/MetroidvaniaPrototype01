@@ -68,7 +68,7 @@ public class BossState_AttackDash : BossState
         }
     }
 
-    public void OnParried()
+    public override void OnParried()
     {
         // --- DISABLE ATTACK --- //
         finisherHitbox.enabled = false;

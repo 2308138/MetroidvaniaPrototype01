@@ -62,7 +62,7 @@ public class BossState_AttackSlash : BossState
         }
     }
 
-    public void OnParried()
+    public override void OnParried()
     {
         // --- DISABLE ATTACK --- //
         slashHitbox.enabled = false;

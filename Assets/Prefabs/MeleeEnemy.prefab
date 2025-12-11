@@ -293,7 +293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackHitbox: {fileID: 6096063013346588422}
   attackCooldown: 1
-  attackRange: 1.5
+  attackRange: 2
 --- !u!114 &7611467919149229020
 MonoBehaviour:
   m_ObjectHideFlags: 0
