@@ -9,7 +9,7 @@ public class UI_DamageNumberSpawner : MonoBehaviour
 
     private void Awake() => i = this;
 
-    public void Spawn(int dmg, Vector3 worldPos)
+    public void Spawn(float dmg, Vector3 worldPos)
     {
         Vector2 screenPos = Camera.main.WorldToScreenPoint(worldPos);
         var obj = Instantiate(damageNumberPrefab, canvas.transform);

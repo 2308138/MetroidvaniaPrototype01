@@ -56,7 +56,7 @@ public class Health : MonoBehaviour, IDamageable
         if (ui != null && ui.worldspaceCanvas != null && ui.damageNumberPrefab != null)
         {
             GameObject obj = Instantiate(ui.damageNumberPrefab, ui.worldspaceCanvas.transform);
-            obj.GetComponent<UI_DamageNumbers>().Show(amount);
+            obj.GetComponent<UI_DamageNumbers>().Show(Mathf.RoundToInt(amount));
             Vector3 screen = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1F);
             obj.transform.position = screen;
         }
@@ -72,9 +72,6 @@ public class Health : MonoBehaviour, IDamageable
             onDeath?.Invoke();
             Die();
         }
-
-        // --- SPAWN DAMAGE NUMBERS --- //
-        UI_DamageNumberSpawner.i?.Spawn(Mathf.RoundToInt(amount), transform.position);
 
         // --- UPDATE PLAYER UI --- //
         if (playerUI != null) playerUI.SetHP(currentHealth, maxHealth);
