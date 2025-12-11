@@ -72,8 +72,12 @@ public class AbilityParry : MonoBehaviour
         StartBlock();
     }
 
-    private void TriggerParryTap() => StartCoroutine(ParryWindow());
-
+    private void TriggerParryTap() 
+    {
+        FindObjectOfType<UI_ParryIndicator>()?.TriggerParryWindow();
+        StartCoroutine(ParryWindow());
+    }
+    
     IEnumerator ParryWindow()
     {
         IsParryActive = true;
@@ -95,6 +99,7 @@ public class AbilityParry : MonoBehaviour
         if (blockCoroutine != null) StopCoroutine(blockCoroutine);
         IsBlockActive = true;
         EnableParryHitbox(true);
+        FindObjectOfType<UI_ParryIndicator>()?.TriggerParryWindow();
         blockCoroutine = StartCoroutine(BlockRoutine());
     }
 

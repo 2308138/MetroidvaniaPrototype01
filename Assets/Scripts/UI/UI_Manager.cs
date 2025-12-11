@@ -1,0 +1,55 @@
+using UnityEngine;
+
+public class UI_Manager : MonoBehaviour
+{
+    [Header("Player UI Hook")]
+    public UI_PlayerHealthBar playerHealthUI;
+    public UI_ParryIndicator parryIndicator;
+
+    [Header("Boss UI Hook")]
+    public UI_BossHealthBar bossHealthUI;
+    public UI_BossStaggerMeter bossStaggerUI;
+    public UI_BossPhaseIndicator bossPhaseUI;
+
+    [Header("DMG Numbers Hook")]
+    public GameObject damageNumberPrefab;
+    public Canvas worldspaceCanvas;
+
+    // --- RUNTIME VARIABLES --- //
+    private Health playerHealth;
+    private BossController boss;
+
+    private void Start()
+    {
+        // --- PLAYER UI --- //
+        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        if (playerHealth != null )
+        {
+            playerHealth.onHealthChanged += playerHealthUI.SetHealth;
+            playerHealth.onDamaged += SpawnDamageNumber;
+        }
+
+        // --- BOSS UI --- //
+        boss = FindObjectOfType<BossController>();
+        if (boss != null)
+        {
+            boss.onBossHealthChanged += bossHealthUI.SetHealth;
+            boss.onStaggerChanged += bossStaggerUI.SetStagger;
+            boss.onBossPhaseChanged += bossPhaseUI.UpdatePhase;
+            boss.onBossDamaged += SpawnDamageNumber;
+        }
+
+        // --- PARRY UI --- //
+        var parry = FindObjectOfType<AbilityParry>();
+        if (parry != null) { }
+    }
+
+    private void SpawnDamageNumber(float dmg)
+    {
+        if (!damageNumberPrefab || !worldspaceCanvas) return;
+
+        GameObject obj = Instantiate(damageNumberPrefab, worldspaceCanvas.transform);
+        var ui = obj.GetComponent<UI_DamageNumbers>();
+        ui.SetDamage(dmg);
+    }
+}

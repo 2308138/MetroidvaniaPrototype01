@@ -35,9 +35,23 @@ public class Health : MonoBehaviour, IDamageable
         currentHealth -= amount;
         float normalized = Mathf.Clamp01(currentHealth / maxHealth);
 
+        // --- FIND WORLDSPACE BAR --- //
+        var ws = GetComponentInChildren<UI_EnemyWorldspaceHealthBar>();
+        if (ws != null) ws.SetHealth(currentHealth, maxHealth);
+
         // --- UI EVENTS --- //
         onHealthChanged?.Invoke(normalized);
         onDamaged?.Invoke(amount);
+
+        // --- DMG NUMBERS LOCATION --- //
+        UI_Manager ui = FindObjectOfType<UI_Manager>();
+        if (ui != null && ui.worldspaceCanvas != null && ui.damageNumberPrefab != null)
+        {
+            GameObject obj = Instantiate(ui.damageNumberPrefab, ui.worldspaceCanvas.transform);
+            obj.GetComponent<UI_DamageNumbers>().SetDamage(amount);
+            Vector3 screen = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1F);
+            obj.transform.position = screen;
+        }
 
         // --- VFX + KNOCKBACK APPLICATION --- //
         hitResponder?.OnHit(transform.position);
