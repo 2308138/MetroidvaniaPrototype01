@@ -22,6 +22,7 @@ public class AbilityDoor : MonoBehaviour
         isOpen = true;
         if (animator != null) animator.SetTrigger("Open");
         GetComponent<Collider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
 
         Debug.Log("Door is opened!");
     }
