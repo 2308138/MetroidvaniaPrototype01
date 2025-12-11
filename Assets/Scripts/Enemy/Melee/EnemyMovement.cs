@@ -33,6 +33,10 @@ public class EnemyMovement : MonoBehaviour
     {
         if (!player) return;
 
+        // --- DEBUG RAYS --- //
+        Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckDistance, Color.green);
+        Debug.DrawRay(wallCheck.position, (movingRight ? Vector2.right : Vector2.left) * wallCheckDistance, Color.red);
+
         // --- DISTANCE CALCULATION --- //
         float dist = Vector2.Distance(transform.position, player.position);
         isChasing = dist <= chaseRange;
@@ -50,6 +54,9 @@ public class EnemyMovement : MonoBehaviour
         // --- CHECK FOR GROUND OR WALL --- //
         bool noGround = !Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
         bool wallAhead = Physics2D.Raycast(wallCheck.position, movingRight ? Vector2.right : Vector2.left, wallCheckDistance, wallLayer);
+
+        if (wallAhead) Debug.Log("WALL DETECTED");
+        if (noGround) Debug.Log("NO GROUND");
 
         if (noGround || wallAhead) Flip();
 

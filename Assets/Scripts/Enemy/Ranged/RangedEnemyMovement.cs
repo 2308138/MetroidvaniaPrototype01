@@ -36,6 +36,10 @@ public class RangedEnemyMovement : MonoBehaviour
     {
         if (!player) return;
 
+        // --- DEBUG RAYS --- //
+        Debug.DrawRay(groundCheck.position, Vector2.down * groundCheckDistance, Color.green);
+        Debug.DrawRay(wallCheck.position, (movingRight ? Vector2.right : Vector2.left) * wallCheckDistance, Color.red);
+
         // --- DISTANCE CALCULATION --- //
         float dist = Vector2.Distance(transform.position, player.position);
         isChasing = dist <= chaseRange;

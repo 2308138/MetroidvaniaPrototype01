@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 5888917170985763427}
   - component: {fileID: 3502397487553610998}
   m_Layer: 7
-  m_Name: RangedEnemy(TestDummy)
+  m_Name: RangedEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
     m_Bits: 256
   chaseRange: 8
   minDistance: 3
-  maxDistance: 5
+  maxDistance: 7
 --- !u!114 &5840628506024606823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.92962074, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

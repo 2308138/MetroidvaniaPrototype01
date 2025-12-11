@@ -166,7 +166,7 @@ GameObject:
   - component: {fileID: 1445293138597541745}
   - component: {fileID: 6468718481912872136}
   m_Layer: 7
-  m_Name: Enemy(TestDummy)
+  m_Name: MeleeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -277,7 +277,7 @@ MonoBehaviour:
     m_Bits: 8
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   chaseRange: 6
 --- !u!114 &6462991550401370506
 MonoBehaviour:

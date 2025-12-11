@@ -174,7 +174,7 @@ MonoBehaviour:
   wallJumpForce: {x: 10, y: 24}
   wallJumpDuration: 0.24
   wallStickTime: 0.18
-  knockbackReceiver: {fileID: 0}
+  knockbackReceiver: {fileID: 6574663760941395976}
 --- !u!114 &5037050620401377883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   maxHealth: 10
   currentHealth: 0
   hitResponder: {fileID: 6654746786769171611}
-  knockbackReceiver: {fileID: 0}
+  knockbackReceiver: {fileID: 6574663760941395976}
   deathPrefab: {fileID: 2155377977795342697, guid: c7cb0e0cbdad2ac43b1307df0e6e4c42, type: 3}
   destroyDelay: 0.4
 --- !u!114 &6654746786769171611
