@@ -47,7 +47,7 @@ public class Health : MonoBehaviour, IDamageable
         if (ui != null && ui.worldspaceCanvas != null && ui.damageNumberPrefab != null)
         {
             GameObject obj = Instantiate(ui.damageNumberPrefab, ui.worldspaceCanvas.transform);
-            obj.GetComponent<UI_DamageNumbers>().SetDamage(amount);
+            obj.GetComponent<UI_DamageNumbers>().Show(amount);
             Vector3 screen = Camera.main.WorldToScreenPoint(transform.position + Vector3.up * 1F);
             obj.transform.position = screen;
         }
@@ -64,6 +64,9 @@ public class Health : MonoBehaviour, IDamageable
             Die();
         }
 
+        // --- SPAWN DAMAGE NUMBERS --- //
+        UI_DamageNumberSpawner.i?.Spawn(Mathf.RoundToInt(amount), transform.position);
+
         Debug.Log($"{gameObject.name} took {amount} damage (HP: {currentHealth}/{maxHealth})");
     }
 
@@ -79,6 +82,12 @@ public class Health : MonoBehaviour, IDamageable
         {
             rb.isKinematic = true;
             rb.linearVelocity = Vector2.zero;
+        }
+
+        if (CompareTag("Player"))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreen");
+            return;
         }
 
         Destroy(gameObject, destroyDelay);

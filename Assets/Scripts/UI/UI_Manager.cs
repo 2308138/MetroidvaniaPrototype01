@@ -50,6 +50,6 @@ public class UI_Manager : MonoBehaviour
 
         GameObject obj = Instantiate(damageNumberPrefab, worldspaceCanvas.transform);
         var ui = obj.GetComponent<UI_DamageNumbers>();
-        ui.SetDamage(dmg);
+        ui.Show(dmg);
     }
 }

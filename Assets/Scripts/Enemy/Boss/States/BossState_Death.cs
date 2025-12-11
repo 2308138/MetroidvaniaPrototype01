@@ -34,6 +34,8 @@ public class BossState_Death : BossState
 
         GameObject.Destroy(boss.gameObject, destroyDelay);
         Debug.Log("Boss has died!");
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreen");
     }
 
     public override void UpdateState() { }

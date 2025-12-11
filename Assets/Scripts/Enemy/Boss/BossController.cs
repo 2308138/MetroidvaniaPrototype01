@@ -86,6 +86,9 @@ public class BossController : MonoBehaviour
             return;
         }
 
+        // --- SPAWN DAMAGE NUMBERS --- //
+        UI_DamageNumberSpawner.i?.Spawn(Mathf.RoundToInt(amount), transform.position);
+
         // --- PHASE UNLOCKS --- //
         if (!phase2Unlocked && currentHealth <= phase2Threshold)
         {

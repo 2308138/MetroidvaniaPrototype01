@@ -11,19 +11,22 @@ public class UI_DamageNumbers : MonoBehaviour
     private TextMeshProUGUI text;
     private float timer;
 
-    private void Awake()
+    public void Show(float dmg)
     {
         text = GetComponent<TextMeshProUGUI>();
+        text.text = Mathf.RoundToInt(dmg).ToString();
         timer = lifeTime;
     }
-
-    public void SetDamage(float dmg) => text.text = Mathf.RoundToInt(dmg).ToString();
 
     private void Update()
     {
         transform.position += Vector3.up * riseSpeed * Time.deltaTime;
 
         timer -= Time.deltaTime;
+        float alpha = timer / lifeTime;
+
+        text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+
         if (timer <= 0) Destroy(gameObject);
     }
 }
