@@ -20,7 +20,7 @@ public class UI_EnemyWorldspaceHealthBar : MonoBehaviour
     {
         transform.position = enemy.position + offset;
         transform.LookAt(transform.position + cam.transform.forward);
-        
-        healthFill.fillAmount = Mathf.Lerp(healthFill.fillAmount, targetFill, Time.deltaTime * 8F)
+
+        healthFill.fillAmount = Mathf.Lerp(healthFill.fillAmount, targetFill, Time.deltaTime * 8F);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour, IDamageable
@@ -12,6 +13,12 @@ public class Health : MonoBehaviour, IDamageable
     public GameObject deathPrefab;
     public float destroyDelay = 0.4F;
 
+    // --- UI EVENTS --- //
+    public event Action<float> onHealthChanged;
+    public event Action<float> onDamaged;
+    public event Action onDeath;
+
+    // --- RUNTIME VARIABLES --- //
     private bool isDead = false;
 
     private void Awake()
@@ -26,15 +33,21 @@ public class Health : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
+        float normalized = Mathf.Clamp01(currentHealth / maxHealth);
 
+        // --- UI EVENTS --- //
+        onHealthChanged?.Invoke(normalized);
+        onDamaged?.Invoke(amount);
+
+        // --- VFX + KNOCKBACK APPLICATION --- //
         hitResponder?.OnHit(transform.position);
         hitResponder?.PlayFlashPop();
-
         if (knockbackReceiver != null) knockbackReceiver.ApplyKnockback(hitDirection);
 
         if (currentHealth <= 0F && !isDead)
         {
             isDead = true;
+            onDeath?.Invoke();
             Die();
         }
 
