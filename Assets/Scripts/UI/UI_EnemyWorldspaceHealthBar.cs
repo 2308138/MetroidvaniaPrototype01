@@ -18,8 +18,14 @@ public class UI_EnemyWorldspaceHealthBar : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (enemy == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         transform.position = enemy.position + offset;
-        transform.LookAt(transform.position + cam.transform.forward);
+        if (cam != null) transform.LookAt(transform.position + cam.transform.forward);
 
         healthFill.fillAmount = Mathf.Lerp(healthFill.fillAmount, targetFill, Time.deltaTime * 8F);
     }

@@ -14,7 +14,7 @@ public class Health : MonoBehaviour, IDamageable
     public float destroyDelay = 0.4F;
 
     [Header("Worldspace Health Bar Hook")]
-    public UI_EnemyWorldspaceHealthBar worldBar;
+    public GameObject worldBarPrefab;
 
     // --- UI EVENTS --- //
     public event Action<float, float> onHealthChanged;
@@ -24,6 +24,7 @@ public class Health : MonoBehaviour, IDamageable
     // --- RUNTIME VARIABLES --- //
     private bool isDead = false;
     private UI_PlayerHealthBar playerUI;
+    private UI_EnemyWorldspaceHealthBar enemyUI;
 
     private void Awake()
     {
@@ -33,9 +34,10 @@ public class Health : MonoBehaviour, IDamageable
         if (CompareTag("Player")) playerUI = FindObjectOfType<UI_PlayerHealthBar>();
         if (!CompareTag("Player"))
         {
-            var prefab = Resources.Load<UI_EnemyWorldspaceHealthBar>("EnemyHealthBar");
-            worldBar = Instantiate(prefab);
-            worldBar.enemy = transform;
+            Transform parent = GameObject.Find("WorldspaceUI").transform;
+            var barObj = Instantiate(worldBarPrefab, transform.position, Quaternion.identity, parent);
+            enemyUI = barObj.GetComponent<UI_EnemyWorldspaceHealthBar>();
+            enemyUI.enemy = transform;
         }
     }
 
@@ -44,10 +46,6 @@ public class Health : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
-
-        // --- FIND WORLDSPACE BAR --- //
-        var ws = GetComponentInChildren<UI_EnemyWorldspaceHealthBar>();
-        if (ws != null) ws.SetHealth(currentHealth, maxHealth);
 
         // --- UI EVENTS --- //
         onHealthChanged?.Invoke(currentHealth, maxHealth);
@@ -82,7 +80,7 @@ public class Health : MonoBehaviour, IDamageable
         if (playerUI != null) playerUI.SetHP(currentHealth, maxHealth);
 
         // --- UPDATE ENEMY UI --- //
-        if (worldBar != null) worldBar.SetHealth(currentHealth, maxHealth);
+        if (enemyUI != null) enemyUI.SetHealth(currentHealth, maxHealth);
 
         Debug.Log($"{gameObject.name} took {amount} damage (HP: {currentHealth}/{maxHealth})");
     }
