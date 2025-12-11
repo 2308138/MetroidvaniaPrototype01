@@ -20,12 +20,14 @@ public class Health : MonoBehaviour, IDamageable
 
     // --- RUNTIME VARIABLES --- //
     private bool isDead = false;
+    private UI_PlayerHealthBar playerUI;
 
     private void Awake()
     {
         currentHealth = maxHealth;
         if (hitResponder == null) hitResponder = GetComponent<HitResponder>();
         if (knockbackReceiver == null) knockbackReceiver = GetComponent<KnockbackReceiver>();
+        if (CompareTag("Player")) playerUI = FindObjectOfType<UI_PlayerHealthBar>();
     }
 
     public void TakeDamage(float amount, Vector2 hitDirection)
@@ -66,6 +68,9 @@ public class Health : MonoBehaviour, IDamageable
 
         // --- SPAWN DAMAGE NUMBERS --- //
         UI_DamageNumberSpawner.i?.Spawn(Mathf.RoundToInt(amount), transform.position);
+
+        // --- UPDATE UI --- //
+        if (playerUI != null) playerUI.SetHP(currentHealth, maxHealth);
 
         Debug.Log($"{gameObject.name} took {amount} damage (HP: {currentHealth}/{maxHealth})");
     }

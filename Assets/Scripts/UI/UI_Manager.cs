@@ -25,7 +25,7 @@ public class UI_Manager : MonoBehaviour
         playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         if (playerHealth != null )
         {
-            playerHealth.onHealthChanged += playerHealthUI.SetHealth;
+            playerHealth.onHealthChanged += playerHealthUI.SetHP;
             playerHealth.onDamaged += SpawnDamageNumber;
         }
 

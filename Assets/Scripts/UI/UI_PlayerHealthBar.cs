@@ -4,15 +4,16 @@ using UnityEngine.UI;
 public class UI_PlayerHealthBar : MonoBehaviour
 {
     [Header("UI Hook")]
-    public Image healthFill;
+    public Slider hpSlider;
+    public Slider chipSlider;
 
     [Header("UI Settings")]
-    public float smoothSpeed = 8F;
+    public float chipSpeed = 2F;
 
-    // --- RUNTIME VARIABLES --- //
-    private float targetFill = 1F;
+    public void SetHP(float current, float max) => hpSlider.value = current / max;
 
-    public void SetHealth(float current, float max) => targetFill = current / max;
-
-    private void Update() => healthFill.fillAmount = Mathf.Lerp(healthFill.fillAmount, targetFill, Time.deltaTime * smoothSpeed);
+    private void Update()
+    {
+        if (chipSlider.value > hpSlider.value) chipSlider.value = Mathf.Lerp(chipSlider.value, hpSlider.value, Time.deltaTime * chipSpeed);
+    }
 }
