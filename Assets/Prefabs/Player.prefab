@@ -156,7 +156,7 @@ MonoBehaviour:
   moveSpeed: 8
   acceleration: 30
   airControl: 0.6
-  jumpForce: 14
+  jumpForce: 16
   variableJumpMultiplier: 0.5
   coyoteTime: 0.12
   jumpBufferTime: 0.12

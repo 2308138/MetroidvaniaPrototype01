@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour
     [Header("Follow Settings")]
     public float followSpeed = 6F;
     public Vector3 offset = new Vector3(0F, 0F, -10F);
+    public float verticalFollowSpeed = 4F;
 
     [Header("Look Ahead Settings")]
     public float lookAheadDistance = 2F;
@@ -15,6 +16,7 @@ public class CameraFollow : MonoBehaviour
 
     [Header("Vertical Deadzone Settings")]
     public float verticalDeadZone = 1.5F;
+    public float deadZoneYOffset = -1F;
 
     // --- RUNTIME VARIABLES --- //
     private Rigidbody2D rb;
@@ -42,9 +44,9 @@ public class CameraFollow : MonoBehaviour
 
         // --- VERTICAL DEADZONE LOGIC --- //
         float camY = transform.position.y;
-        float targetY = target.position.y;
+        float deadZoneCenterY = target.position.y + deadZoneYOffset;
 
-        if (Mathf.Abs(targetY - camY) > verticalDeadZone) targetPos.y = Mathf.Lerp(camY, targetY, Time.deltaTime * followSpeed);
+        if (Mathf.Abs(deadZoneCenterY - camY) > verticalDeadZone) targetPos.y = Mathf.Lerp(camY, deadZoneCenterY, Time.deltaTime * verticalFollowSpeed);
         else targetPos.y = camY;
 
         // --- CAMERA SMOOTHING --- //
