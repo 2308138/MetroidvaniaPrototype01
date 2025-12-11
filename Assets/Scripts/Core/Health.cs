@@ -13,6 +13,9 @@ public class Health : MonoBehaviour, IDamageable
     public GameObject deathPrefab;
     public float destroyDelay = 0.4F;
 
+    [Header("Worldspace Health Bar Hook")]
+    public UI_EnemyWorldspaceHealthBar worldBar;
+
     // --- UI EVENTS --- //
     public event Action<float, float> onHealthChanged;
     public event Action<float> onDamaged;
@@ -28,6 +31,12 @@ public class Health : MonoBehaviour, IDamageable
         if (hitResponder == null) hitResponder = GetComponent<HitResponder>();
         if (knockbackReceiver == null) knockbackReceiver = GetComponent<KnockbackReceiver>();
         if (CompareTag("Player")) playerUI = FindObjectOfType<UI_PlayerHealthBar>();
+        if (!CompareTag("Player"))
+        {
+            var prefab = Resources.Load<UI_EnemyWorldspaceHealthBar>("EnemyHealthBar");
+            worldBar = Instantiate(prefab);
+            worldBar.enemy = transform;
+        }
     }
 
     public void TakeDamage(float amount, Vector2 hitDirection)
@@ -69,8 +78,11 @@ public class Health : MonoBehaviour, IDamageable
         // --- SPAWN DAMAGE NUMBERS --- //
         UI_DamageNumberSpawner.i?.Spawn(Mathf.RoundToInt(amount), transform.position);
 
-        // --- UPDATE UI --- //
+        // --- UPDATE PLAYER UI --- //
         if (playerUI != null) playerUI.SetHP(currentHealth, maxHealth);
+
+        // --- UPDATE ENEMY UI --- //
+        if (worldBar != null) worldBar.SetHealth(currentHealth, maxHealth);
 
         Debug.Log($"{gameObject.name} took {amount} damage (HP: {currentHealth}/{maxHealth})");
     }
