@@ -6,7 +6,7 @@ public class UI_PlayerHealthBar : MonoBehaviour
     [Header("UI Hook")]
     public Image healthFill;
 
-    [Header("Settings")]
+    [Header("UI Settings")]
     public float smoothSpeed = 8F;
 
     // --- RUNTIME VARIABLES --- //
