@@ -1,5 +1,3 @@
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class OLD_EnemyAI : MonoBehaviour
